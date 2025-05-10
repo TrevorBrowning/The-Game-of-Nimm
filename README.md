@@ -5,7 +5,7 @@ A Python-based turn-based game where players (or AI opponents) take turns removi
 ## Game Modes:
 
 - 2 Player Co-Op
-- VS AI
+- Vs AI
   - Beginner
   - Intermediate
 
@@ -15,3 +15,9 @@ A Python-based turn-based game where players (or AI opponents) take turns removi
 2. If AI, select difficulty
 3. On your turn, remove 1 or 2 stones
 4. Try **not** to be the last one to remove a stone
+
+## Features to be added
+
+- Score system
+- ~~AI (intermediate)~~
+- AI (expert)
