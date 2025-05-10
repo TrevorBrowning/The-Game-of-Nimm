@@ -1,8 +1,7 @@
 import random
 import os
+import time
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def main():
@@ -38,7 +37,6 @@ def main():
                     print(" ")
                     clear()
                     play_game_intermediate(game_mode)    
-                
                 else:
                     print("Maybe next time!")
                     break
@@ -49,7 +47,6 @@ def main():
             first_time = False 
 
         else:
-           
             play_game()
 
         replay = input("Would you like to play again? Y/N: ").strip().upper()
@@ -57,14 +54,12 @@ def main():
             print("Thank you for playing.")
             break
 
-# - VS AI Intermediate -
-
 def play_game_intermediate(game_mode):
     print("Good luck against the harder AI!")
     stones = 20
     current_player = 1
 
-    while stones > 0:
+    while True:
         print(f"There are {stones} stones left")
         print(" ")
 
@@ -78,40 +73,45 @@ def play_game_intermediate(game_mode):
                         break
                 print("Invalid input. Try again.")
             stones -= msg
-            current_player = 2
 
         elif current_player == 2:
-
             print("The Computer is thinking...")
-            if stones == 4:
-                ai_num = 1
+            timer_delay()
+            if stones >= 2:
 
-            elif (stones - 2) % 3 == 0 and stones >= 2:
-                ai_num = 2
+                if stones == 2:
+                    ai_num = 1
 
+                elif stones == 4:
+                    ai_num = 1
+                elif (stones - 2) % 3 == 0:
+                    ai_num = 2
+                else:
+                    ai_num = random.randint(1, 2)
             else:
-                ai_num = random.randint(1,2)
-
-                
+                ai_num = 1
             print(f"The computer selected {ai_num}!")
             print(" ")
             stones -= ai_num
-            current_player = 1
 
-    winner = 2 if current_player == 1 else 1
+        if stones == 0:
+            loser = current_player
+            break
+
+        current_player = 2 if current_player == 1 else 1
+
+    winner = 2 if loser == 1 else 1
 
     if winner == 2 and game_mode == "ai":
         print("The AI wins! Better luck next time")
     else:
         print("You win! Good job.")
 
-
-
 def play_game(game_mode):
     stones = 20
     current_player = 1
 
-    while stones > 0:
+    while True:
         print(f"There are {stones} stones left")
         print(" ")
 
@@ -125,7 +125,6 @@ def play_game(game_mode):
                         break
                 print("Invalid input. Try again.")
             stones -= msg
-            current_player = 2
 
         elif current_player == 2:
             print("The Computer is thinking...")
@@ -133,23 +132,25 @@ def play_game(game_mode):
             print(f"The computer selected {ai_num}!")
             print(" ")
             stones -= ai_num
-            current_player = 1
 
-    winner = 2 if current_player == 1 else 1
+        if stones == 0:
+            loser = current_player
+            break
+
+        current_player = 2 if current_player == 1 else 1
+
+    winner = 2 if loser == 1 else 1
 
     if winner == 2 and game_mode == "ai":
         print("The AI wins! Better luck next time")
     else:
         print("You win! Good job.")
 
-
-# - 2 Player -
-
 def play_game_coop():
     stones = 20
     current_player = 1
 
-    while stones > 0:
+    while True:
         print(f"There are {stones} stones left")
         print(" ")
 
@@ -162,11 +163,22 @@ def play_game_coop():
                 if msg <= stones:
                     break
             print("Invalid input. Try again.")
-        
+
         stones -= msg
+
+        if stones == 0:
+            break
+
         current_player = 2 if current_player == 1 else 1
 
-    print(f"Player {current_player} wins!")
+    print(f"Player {2 if current_player == 1 else 1} wins!")
+
+
+def timer_delay():
+    time.sleep(2)
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == '__main__':
     main()
