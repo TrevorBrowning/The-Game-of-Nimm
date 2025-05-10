@@ -5,6 +5,8 @@ import time
 
 
 def main():
+    last_mode = None
+    game_mode = None
     first_time = True
 
     while True:
@@ -16,27 +18,22 @@ def main():
             game_option = input("Select either '2 player' or 'AI': ").strip().lower()
 
             if game_option == "2 player":
-                print("2 Player Co-Op selected")
-                msg = input("Would you like to start? Y/N ").strip().upper()
-                if msg == "Y":
-                    clear()
-                    play_game_coop()
-                else:
-                    print("Maybe next time!")
-                    break
+                last_mode = "2_player"
+                clear()
+                play_game_coop()
 
             elif game_option == "ai":
                 game_mode = "ai"
                 print("VS AI selected")
-                msg = input("Which AI would you prefer to play against? (Beginner[B] /Intermediate[I]) ").strip().upper()
+                msg = input("Which AI would you prefer to play against? (Beginner[B] / Intermediate[I]) ").strip().upper()
                 if msg == "BEGINNER" or msg == "B":
+                    last_mode = "beginner"
                     clear()
                     play_game(game_mode)
-
                 elif msg == "INTERMEDIATE" or msg == "I":
-                    print(" ")
+                    last_mode = "intermediate"
                     clear()
-                    play_game_intermediate(game_mode)    
+                    play_game_intermediate(game_mode)
                 else:
                     print("Maybe next time!")
                     break
@@ -44,15 +41,29 @@ def main():
                 print("Invalid game mode selected. Exiting the script.")
                 break
 
-            first_time = False 
+            first_time = False
 
         else:
-            play_game()
+            if last_mode == "2_player":
+                play_game_coop()
+            elif last_mode == "beginner":
+                play_game(game_mode)
+            elif last_mode == "intermediate":
+                play_game_intermediate(game_mode)
 
-        replay = input("Would you like to play again? Y/N: ").strip().upper()
-        if replay != "Y":
+        replay = input("Would you like to play again? (Y = same mode, M = main menu, N = quit): ").strip().upper()
+        if replay == "Y":
+            continue
+        elif replay == "M":
+            first_time = True
+            continue
+        elif replay == "N":
             print("Thank you for playing.")
             break
+        else:
+            print("Invalid input. Exiting.")
+            break
+
 
 def play_game_intermediate(game_mode):
     print("Good luck against the harder AI!")
@@ -76,7 +87,7 @@ def play_game_intermediate(game_mode):
 
         elif current_player == 2:
             for i in range(4):
-                print("The Computer is thinking" + "." * i, end="\r")
+                print("The Computer is calculating" + "." * i, end="\r")
                 time.sleep(0.5)
             
             print()
@@ -132,8 +143,8 @@ def play_game(game_mode):
 
         elif current_player == 2:
             for i in range(4):
-                print("The Computer is thinking" + "." * i, end="\r")
-                time.sleep(0.5)
+                print("The Computer is guessing" + "." * i, end="\r")
+                time.sleep(0.2)
             
             print()
             timer_delay()
@@ -153,7 +164,7 @@ def play_game(game_mode):
     if winner == 2 and game_mode == "ai":
         print("The AI wins! Better luck next time")
     else:
-        print("You win! Good job.")
+        print("You win!")
 
 def play_game_coop():
     stones = 20
@@ -184,10 +195,12 @@ def play_game_coop():
 
 
 def timer_delay():
-    time.sleep(0.5)
+    time.sleep(0.2)
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
 
 if __name__ == '__main__':
     main()
