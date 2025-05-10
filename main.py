@@ -75,7 +75,11 @@ def play_game_intermediate(game_mode):
             stones -= msg
 
         elif current_player == 2:
-            print("The Computer is thinking...")
+            for i in range(4):
+                print("The Computer is thinking" + "." * i, end="\r")
+                time.sleep(0.5)
+            
+            print()
             timer_delay()
             if stones >= 2:
 
@@ -127,7 +131,12 @@ def play_game(game_mode):
             stones -= msg
 
         elif current_player == 2:
-            print("The Computer is thinking...")
+            for i in range(4):
+                print("The Computer is thinking" + "." * i, end="\r")
+                time.sleep(0.5)
+            
+            print()
+            timer_delay()
             ai_num = 1 if stones == 1 else random.randint(1, 2)
             print(f"The computer selected {ai_num}!")
             print(" ")
@@ -175,7 +184,7 @@ def play_game_coop():
 
 
 def timer_delay():
-    time.sleep(2)
+    time.sleep(0.5)
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
